@@ -72,6 +72,9 @@
           <a-button type="primary" style="width: 270px; height:40px" @click="onchange">
             Register
           </a-button>
+          <a-button type="dashed" style="width: 270px; height:40px" @click="cancel">
+            cancel
+          </a-button>
         </a-form-model>
       </div>
     </div>
@@ -128,9 +131,16 @@ export default {
         }
       }
       console.log('2')
-      return this.o.message2
+      // return this.o.message2,
+      this.$axios.post('http://localhost:3033/post/user/', this.form)
+        .then(() => {
+          // this.$router.push(`/profile/${this.profile.userId}`);
+          // console.log("put", this.profile);
+        })
+      this.$router.replace('/')
     },
-    onSubmit () {
+    cancel () {
+      this.$router.replace('/')
     }
   }
 }
