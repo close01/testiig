@@ -1,14 +1,12 @@
 <template>
   <div>
     <h1>Profile</h1>
-    <UploadProfile />
+    <MyProfile />
   </div>
 </template>
 
 <script>
-import UploadProfile from '~/components/UploadProfile.vue'
 export default {
-  name: 'ProfilePage',
-  components: { UploadProfile }
+  name: 'ProfilePage'
 }
 </script>

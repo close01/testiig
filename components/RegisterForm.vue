@@ -88,12 +88,12 @@ export default {
         lname: ''
       },
       o: {
-        badSequenceLength: 6,
-        noQwertySequences: false,
-        a: false,
-        b: true,
-        message1: '1',
-        message2: '2'
+        badSequenceLength: 3,
+        noQwertySequences: false
+        // a: false,
+        // b: true,
+        // message1: '1',
+        // message2: '2'
       },
       rules: {
         pw: [
@@ -126,7 +126,7 @@ export default {
             return this.o.message1
           }
         }
-      };
+      }
       console.log('2')
       return this.o.message2
     },
