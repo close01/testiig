@@ -2,8 +2,9 @@
   <div>
     <h1>Profile</h1>
     <MyProfile />
+    <router-link v-if="authenticated" to="/login" v-on:click.native="logout()" replace>Logout</router-link>
     <a-button type="dashed" style="width: 270px; height:40px" @click="logout">
-      cancel
+      logout
     </a-button>
     <router-view @authenticated="setAuthenticated" />
   </div>
@@ -11,13 +12,14 @@
 
 <script>
 export default {
+  name: 'ProfilePage',
   data () {
     return {
-      authenticated: false,
-      mockAccount: {
-        username: 'aaaaaa',
-        password: 'aaaaaa'
-      }
+      authenticated: true
+      // mockAccount: {
+      //   username: 'aaaaaa',
+      //   password: 'aaaaaa'
+      // }
     }
   },
   mounted () {
@@ -28,9 +30,11 @@ export default {
   methods: {
     setAuthenticated (status) {
       this.authenticated = status
+      console.log('xzxzxzxz', status)
     },
     logout () {
       this.authenticated = false
+      this.$router.replace('/')
     }
   }
 }
