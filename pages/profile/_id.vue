@@ -16,6 +16,7 @@ export default {
   data () {
     return {
       authenticated: true
+      // authenticated: false รับ ไม่เจอ
       // mockAccount: {
       //   username: 'aaaaaa',
       //   password: 'aaaaaa'
