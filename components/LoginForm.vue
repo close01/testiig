@@ -17,7 +17,7 @@
             type="text"
             style="width: 270px; margin:15px auto 0px;"
           />
-          {{ profile }}
+          {{ this.profile2 }}
           <!-- {{profile.u.indexof(input.username)}} -->
           {{ typeof input.username }}
         </div>
@@ -59,12 +59,14 @@ export default {
         password: ''
       },
       profile: [],
-      profile1: []
+      profile1: [],
+      profile2: []
     }
   },
   mounted () {
     this.getProfile()
     this.getProfile1()
+    this.getProfile2()
   },
   methods: {
     async getProfile () {
@@ -79,13 +81,19 @@ export default {
       console.log('ppp', this.profile1)
       // console.log(this.input.username)
     },
+    async getProfile2 () {
+      const res = await axios.get('http://localhost:3033/get/profiles/id')
+      this.profile2 = res.data
+      console.log('idididiid', this.profile2)
+      // console.log(this.input.username)
+    },
     login () {
       if (this.input.username !== '' && this.input.password !== '') {
         if (this.profile.includes(this.input.username) || this.profile1.includes(this.input.password)) {
-          console.log('h')
+          console.log(this.profile2[this.profile.indexOf(this.input.username)])
           if (this.input.username === this.profile[this.profile.indexOf(this.input.username)] && this.input.password === this.profile1[this.profile.indexOf(this.input.username)]) {
             this.$emit('authenticated', true)
-            this.$router.replace('/myprofile')
+            this.$router.replace(`/profile/${this.profile2[this.profile.indexOf(this.input.username)]}`)
           } else {
             console.log('The username and / or password is incorrect')
           }

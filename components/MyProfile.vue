@@ -21,9 +21,9 @@
     </div>
     <div style="">
       <a-card title="Profile" :bordered="false" style="width: 300px">
-        <p>frist name {{ "aaaaaaaaaaaaaaaa" }}</p>
-        <p>last name {{ "aaaaaaaaaaaaaaaa" }}</p>
-        <p>username {{ "bbbbbbbbbbb" }}</p>
+        <p>frist name {{ file.fname }}</p>
+        <p>last name {{ file.lname }}</p>
+        <p>username {{ file.user }}</p>
         <p>password  <a @click="showModalpass">Change password</a></p>
         <a-modal v-model="visiblepass" title="Change password" @ok="handleOk">
           <a-form-model
@@ -68,7 +68,7 @@
         <a-icon type="edit" />
         edit profile
       </a-button>
-      <a-modal v-model="visible" title="Edit profile" @ok="handleOk">
+      <a-modal v-model="visible" title="Edit profile" @ok="handleOkedit">
         <a-form-model
           ref="ruleForm"
           :model="editform"
@@ -112,15 +112,13 @@
               style="width: 270px; margin:15px auto 0px;"
             />
           </a-form-model-item>
-          <!-- <a-button type="primary" style="width: 270px; height:40px" @click="onchange">
-            Register
-          </a-button> -->
         </a-form-model>
       </a-modal>
     </div>
   </div>
 </template>
 <script>
+import axios from 'axios'
 function getBase64 (file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -137,6 +135,15 @@ export default {
       visible: false,
       visiblepass: false,
       // openchang: false,
+      file: {
+        pw: '',
+        user: '',
+        fname: '',
+        lname: '',
+        id: '',
+        auth: ''
+      },
+      id: this.$route.params.id,
       formchange: {
         pwc: ''
       },
@@ -148,10 +155,6 @@ export default {
       o: {
         badSequenceLength: 3,
         noQwertySequences: false
-        // a: false,
-        // b: true,
-        // message1: '1',
-        // message2: '2'
       },
       ruleschange: {
         pwc: [
@@ -169,7 +172,15 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.getData()
+  },
   methods: {
+    async getData () {
+      const res = await axios.get(`http://localhost:3033/get/profile/${this.id}`)
+      this.file = res.data
+      console.log(this.file)
+    },
     handleCancel () {
       this.previewVisible = false
     },
@@ -196,6 +207,13 @@ export default {
       // console.log(e)
       this.visible = false
       this.visiblepass = false
+    },
+    handleOkedit (e) {
+      // console.log(e)
+      this.$axios.put(`http://localhost:3033/edit/user/${this.id}`, this.editform)
+      this.visible = false
+      this.visiblepass = false
+      window.location.reload(true)
     },
     onchangepw () {
       const pwc = this.formchange.pwc
