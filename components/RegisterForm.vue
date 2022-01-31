@@ -14,11 +14,10 @@
           :label-col="labelCol"
           :wrapper-col="wrapperCol"
         >
-          <a-form-model-item label="" prop="user">
+          <a-form-model-item ref="user" label="" prop="user">
             <a-input
               id="txtUsername"
               v-model="form.user"
-              max-length="12"
               size="large"
               placeholder="usename"
               class="border w-full px-2 py-1"
@@ -45,7 +44,7 @@
                 }
               "
             />
-            <h2>{{ o.message }}</h2>
+            <h2>{{ users }}</h2>
           </a-form-model-item>
           <a-form-model-item label="" prop="fname">
             <a-input
@@ -81,6 +80,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -93,25 +93,77 @@ export default {
       o: {
         badSequenceLength: 3,
         noQwertySequences: false
-        // a: false,
-        // b: true,
-        // message1: '1',
-        // message2: '2'
       },
+      users: [],
       rules: {
         pw: [
           { required: true, message: 'Please input password', trigger: 'blur' },
-          { min: 6, message: 'Password length should be 6', trigger: 'blur' }
+          { min: 6, message: 'Password length should be longer than 6', trigger: 'blur' }
           // { required: this.form.pw.validatePassword(this.form.pw), message: 'Wrong pattern password', trigger: 'blur' }
+        ],
+        user: [
+          { required: true, message: 'Please input username', trigger: 'blur' },
+          { min: 3, max: 12, message: 'should not be longer than 12', trigger: 'blur' }
+        ],
+        fname: [
+          { required: true, message: 'Please input name', trigger: 'blur' }
+        ],
+        lname: [
+          { required: true, message: 'Please input name', trigger: 'blur' }
         ]
       }
     }
   },
+  mounted () {
+    this.getData()
+  },
   methods: {
-    // confirm () {
-    // }
+    async getData () {
+      const res = await axios.get('http://localhost:3033/get/users/')
+      this.users = res.data
+      console.log(this.users)
+    },
+    onlyUnique (value, index, self) {
+      return self.indexOf(value) === index
+    },
     onchange () {
       const pw = this.form.pw
+      // user
+      if (this.form.user === '') {
+        this.$notification.open({
+          message: 'Notification Title',
+          description:
+          'name.'
+        })
+        return false
+      }
+      // password
+      if (this.form.pw === '') {
+        this.$notification.open({
+          message: 'Notification Title',
+          description:
+          'password.'
+        })
+        return false
+      }
+      // fristname
+      if (this.form.fname === '') {
+        this.$notification.open({
+          message: 'Notification Title',
+          description:
+          'fristname.'
+        })
+        return false
+      }
+      // lastname
+      if (this.form.lname === '') {
+        this.$notification.open({
+          message: 'Notification Title',
+          description:
+          'lastname.'
+        })
+        return false
+      }
       if (this.o.badSequenceLength) {
         const lower = 'abcdefghijklmnopqrstuvwxyz'
         const upper = lower.toUpperCase()
@@ -126,9 +178,20 @@ export default {
             lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || (this.o.noQwertySequences && qwerty.includes(seq))
           ) {
             console.log('1')
+            // console.log(this.users.includes(this.form.user), typeof this.users)
             return this.o.message1
           }
         }
+      }
+      if (this.users.includes(this.form.user)) {
+        console.log('3')
+        this.$notification.open({
+          message: 'Notification Title',
+          description:
+          'Thion.'
+        })
+        // return false
+        return this.o.message1
       }
       console.log('2')
       // return this.o.message2,

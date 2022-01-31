@@ -10,7 +10,7 @@
           <!-- <label class="block mb-2 text-gray-500" for="email">Email</label> -->
           <a-input
             id="txtEmail"
-
+            v-model="input.username"
             size="large"
             placeholder="usename"
             class="border w-full px-2 py-1"
@@ -22,7 +22,7 @@
           <!-- <label class="block mb-2 text-gray-500" for="password">Password</label> -->
           <a-input-password
             id="txtPassword"
-
+            v-model="input.password"
             size="large"
             placeholder="password"
             class="border w-full px-2 py-1"
@@ -31,7 +31,7 @@
           />
         </div>
         <div>
-          <a-button type="primary" style="width: 270px; height:40px">
+          <a-button type="primary" style="width: 270px; height:40px" @click="login">
             Login
           </a-button>
         </div>
@@ -44,3 +44,29 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  data () {
+    return {
+      input: {
+        username: '',
+        password: ''
+      }
+    }
+  },
+  methods: {
+    login () {
+      if (this.input.username !== '' && this.input.password !== '') {
+        if (this.input.username === this.$parent.mockAccount.username && this.input.password === this.$parent.mockAccount.password) {
+          this.$emit('authenticated', true)
+          this.$router.replace('/myprofile')
+        } else {
+          console.log('The username and / or password is incorrect')
+        }
+      } else {
+        console.log('A username and password must be present')
+      }
+    }
+  }
+}
+</script>
