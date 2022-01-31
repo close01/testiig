@@ -17,7 +17,7 @@
             type="text"
             style="width: 270px; margin:15px auto 0px;"
           />
-          {{ this.profile2 }}
+          {{ profile2 }}
           <!-- {{profile.u.indexof(input.username)}} -->
           {{ typeof input.username }}
         </div>
@@ -51,12 +51,14 @@
 </template>
 <script>
 import axios from 'axios'
+// import mapMutations from 'vuex'
 export default {
   data () {
     return {
       input: {
         username: '',
-        password: ''
+        password: '',
+        auth: true
       },
       profile: [],
       profile1: [],
@@ -89,10 +91,12 @@ export default {
     },
     login () {
       if (this.input.username !== '' && this.input.password !== '') {
+        this.$emit('authenticated', true)
         if (this.profile.includes(this.input.username) || this.profile1.includes(this.input.password)) {
           console.log(this.profile2[this.profile.indexOf(this.input.username)])
           if (this.input.username === this.profile[this.profile.indexOf(this.input.username)] && this.input.password === this.profile1[this.profile.indexOf(this.input.username)]) {
-            this.$emit('authenticated', true)
+            // true ค่าไม่ส่ง
+            // this.$emit('authenticated', true)
             this.$router.replace(`/profile/${this.profile2[this.profile.indexOf(this.input.username)]}`)
           } else {
             console.log('The username and / or password is incorrect')
