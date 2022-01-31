@@ -82,7 +82,8 @@ export default {
     login () {
       if (this.input.username !== '' && this.input.password !== '') {
         if (this.profile.includes(this.input.username) || this.profile1.includes(this.input.password)) {
-          if (this.input.username === this.profile.user && this.input.password === '') {
+          console.log('h')
+          if (this.input.username === this.profile[this.profile.indexOf(this.input.username)] && this.input.password === this.profile1[this.profile.indexOf(this.input.username)]) {
             this.$emit('authenticated', true)
             this.$router.replace('/myprofile')
           } else {
