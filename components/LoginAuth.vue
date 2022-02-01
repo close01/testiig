@@ -7,9 +7,8 @@
         </h2>
 
         <div class="mb-4">
-          <!-- <label class="block mb-2 text-gray-500" for="email">Email</label> -->
           <a-input
-            id="txtEmail"
+            id="txtUser"
             v-model="input.username"
             size="large"
             placeholder="usename"
@@ -19,7 +18,6 @@
           />
         </div>
         <div class="mb-4">
-          <!-- <label class="block mb-2 text-gray-500" for="password">Password</label> -->
           <a-input-password
             id="txtPassword"
             v-model="input.password"
@@ -29,7 +27,6 @@
             type="password"
             style="width: 270px; margin:30px auto;"
           />
-          <!-- {{this.$parent.mockAccount.username}} -->
         </div>
         <div>
           <a-button type="primary" style="width: 270px; height:40px" @click="login">
@@ -47,6 +44,7 @@
 </template>
 <script>
 import axios from 'axios'
+// import firebase from "firebase";
 // import mapMutations from 'vuex'
 export default {
   data () {
@@ -85,21 +83,16 @@ export default {
       console.log('idididiid', this.profile2)
       // console.log(this.input.username)
     },
-    login () {
-      if (this.input.username !== '' && this.input.password !== '') {
-        this.$emit('authenticated', true)
-        if (this.profile.includes(this.input.username) || this.profile1.includes(this.input.password)) {
-          console.log(this.profile2[this.profile.indexOf(this.input.username)])
-          if (this.input.username === this.profile[this.profile.indexOf(this.input.username)] && this.input.password === this.profile1[this.profile.indexOf(this.input.username)]) {
-            // true ค่าไม่ส่ง
-            // this.$emit('authenticated', false)
-            this.$router.replace(`/profile/${this.profile2[this.profile.indexOf(this.input.username)]}`)
-          } else {
-            console.log('The username and / or password is incorrect')
-          }
-        } else {
-          console.log('A username and password must be present')
-        }
+    async login () {
+    //   console.log(this.formData)
+      try {
+        await this.$fire.auth.signInWithEmailAndPassword(
+          this.input.username,
+          this.input.password
+        )
+        this.$router.replace('home')
+      } catch (e) {
+        alert(e)
       }
     }
   }

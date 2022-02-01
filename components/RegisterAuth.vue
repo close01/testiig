@@ -123,6 +123,9 @@ export default {
       this.users = res.data
       console.log(this.users)
     },
+    onlyUnique (value, index, self) {
+      return self.indexOf(value) === index
+    },
     onchange () {
       const pw = this.form.pw
       // user
@@ -194,9 +197,12 @@ export default {
       // return this.o.message2,
       this.$axios.post('http://localhost:3033/post/user/', this.form)
         .then(() => {
-          // this.$router.push(`/profile/${this.profile.userId}`);
-          // console.log("put", this.profile);
         })
+      this.$fire.auth.createUserWithEmailAndPassword(
+        this.form.user,
+        this.form.pw
+      )
+      this.$router.replace('login')
       this.$router.replace('/')
     },
     cancel () {

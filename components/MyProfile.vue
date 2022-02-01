@@ -20,7 +20,7 @@
       </a-modal>
     </div>
     <div style="">
-      <a-card title="Profile" :bordered="false" style="width: 300px">
+      <a-card title="" :bordered="false" style="width: 300px">
         <p>frist name {{ file.fname }}</p>
         <p>last name {{ file.lname }}</p>
         <p>username {{ file.user }}</p>
@@ -56,15 +56,15 @@
                 />
               </div>
             </a-form-model-item>
-            <a-button @click="onchangepw">
+            <!-- <a-button @click="onchangepw">
               OK
-            </a-button>
+            </a-button> -->
           </a-form-model>
         </a-modal>
       </a-card>
     </div>
     <div>
-      <a-button type="primary" @click="showModal">
+      <a-button type="dashed" style="width: 270px; height:40px" @click="showModal">
         <a-icon type="edit" />
         edit profile
       </a-button>
@@ -180,6 +180,7 @@ export default {
       const res = await axios.get(`http://localhost:3033/get/profile/${this.id}`)
       this.file = res.data
       console.log(this.file)
+      this.$emit('authstatus', this.file.auth)
     },
     handleCancel () {
       this.previewVisible = false
