@@ -25,7 +25,7 @@
         <p>last name {{ file.lname }}</p>
         <p>username {{ file.user }}</p>
         <p>password  <a @click="showModalpass">Change password</a></p>
-        <a-modal v-model="visiblepass" title="Change password" @ok="handleOk">
+        <a-modal v-model="visiblepass" title="Change password" @ok="handleOkPass">
           <a-form-model
             ref="ruleForm"
             v-model="openchange"
@@ -177,7 +177,7 @@ export default {
   },
   methods: {
     async getData () {
-      const res = await axios.get(`http://localhost:3033/get/profile/${this.id}`)
+      const res = await axios.get(`http://localhost:3034/get/profile/${this.id}`)
       this.file = res.data
       console.log(this.file)
       this.$emit('authstatus', this.file.auth)
@@ -204,14 +204,38 @@ export default {
     showModalpass () {
       this.visiblepass = true
     },
-    handleOk (e) {
+    handleOkPass (e) {
       // console.log(e)
+      // this.visible = false
+      // this.visiblepass = false
+      const pwc = this.formchange.pwc
+      if (this.o.badSequenceLength) {
+        const lower = 'abcdefghijklmnopqrstuvwxyz'
+        const upper = lower.toUpperCase()
+        const numbers = '0123456789'
+        // 'qwertyuiopasdfghjklzxcvbnm'
+        const qwerty = 'qwertyuiopasdfghjklzxcvbnm'
+        const start = this.o.badSequenceLength - 1
+        let seq = '_' + pwc.slice(0, start)
+        for (let i = start; i < pwc.length; i++) {
+          seq = seq.slice(1) + pwc.charAt(i)
+          if (
+            lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || (this.o.noQwertySequences && qwerty.includes(seq))
+          ) {
+            console.log('1')
+            return
+          }
+        }
+      }
       this.visible = false
       this.visiblepass = false
+      console.log('2')
+      this.openchang = false
+      this.$axios.put(`http://localhost:3034/edit/pw/${this.id}`, this.formchange)
     },
     handleOkedit (e) {
       // console.log(e)
-      this.$axios.put(`http://localhost:3033/edit/user/${this.id}`, this.editform)
+      this.$axios.put(`http://localhost:3034/edit/user/${this.id}`, this.editform)
       this.visible = false
       this.visiblepass = false
       window.location.reload(true)

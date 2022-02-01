@@ -119,7 +119,7 @@ export default {
   },
   methods: {
     async getData () {
-      const res = await axios.get('http://localhost:3033/get/users/')
+      const res = await axios.get('http://localhost:3034/get/users/')
       this.users = res.data
       console.log(this.users)
     },
@@ -192,7 +192,7 @@ export default {
       }
       console.log('2')
       // return this.o.message2,
-      this.$axios.post('http://localhost:3033/post/user/', this.form)
+      this.$axios.post('http://localhost:3034/post/user/', this.form)
         .then(() => {
           // this.$router.push(`/profile/${this.profile.userId}`);
           // console.log("put", this.profile);

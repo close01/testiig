@@ -58,7 +58,8 @@ export default {
       },
       profile: [],
       profile1: [],
-      profile2: []
+      profile2: [],
+      encryptP: null
     }
   },
   mounted () {
@@ -68,36 +69,61 @@ export default {
   },
   methods: {
     async getProfile () {
-      const res = await axios.get('http://localhost:3033/get/users')
+      const res = await axios.get('http://localhost:3034/get/users')
       this.profile = res.data
-      console.log('uuu', this.profile)
+      console.log('username', this.profile)
       // console.log(this.input.username)
     },
     async getProfile1 () {
-      const res = await axios.get('http://localhost:3033/get/profiles/pw')
+      const res = await axios.get('http://localhost:3034/get/profiles/pw')
       this.profile1 = res.data
-      console.log('ppp', this.profile1)
+      console.log('password encrypt', this.profile1)
       // console.log(this.input.username)
     },
     async getProfile2 () {
-      const res = await axios.get('http://localhost:3033/get/profiles/id')
+      const res = await axios.get('http://localhost:3034/get/profiles/id')
       this.profile2 = res.data
-      console.log('idididiid', this.profile2)
+      console.log('id', this.profile2)
       // console.log(this.input.username)
     },
     login () {
+      // const inputU = this.input.username
+      // const inputP = this.input.password
+      // const encrypt = axios.get('http://localhost:3034/pass/', this.input.password)
+      // console.log(encrypt)
+      // const encrypt = await axios.get('http://localhost:3034/pass/', this.profile1[this.profile.indexOf(inputU)])
+      // console.log('eeeeeee', encrypt)
+      // this.encryptP = encrypt.data
+      // console.log('eeeeeeeedfdfdfdfdfdfd', this.profile1[this.profile.indexOf(inputU)])
+      const baseString = this.profile1[this.profile.indexOf(this.input.username)]
+      const CryptoJS = require('crypto-js')
+      const decipher = CryptoJS.AES.decrypt(baseString, 'CIPHERKEY')
+      const plaintext = decipher.toString(CryptoJS.enc.Utf8)
+      // //////////////////////////////////////////
       if (this.input.username !== '' && this.input.password !== '') {
         this.$emit('authenticated', true)
         if (this.profile.includes(this.input.username) || this.profile1.includes(this.input.password)) {
           console.log(this.profile2[this.profile.indexOf(this.input.username)])
-          if (this.input.username === this.profile[this.profile.indexOf(this.input.username)] && this.input.password === this.profile1[this.profile.indexOf(this.input.username)]) {
+          if (this.input.username === this.profile[this.profile.indexOf(this.input.username)] && this.input.password === plaintext) {
+            // if (this.input.username === this.profile[this.profile.indexOf(this.input.username)] && this.input.password === this.profile1[this.profile.indexOf(this.input.username)]) {
             // true ค่าไม่ส่ง
             // this.$emit('authenticated', false)
             this.$router.replace(`/profile/${this.profile2[this.profile.indexOf(this.input.username)]}`)
+            // ////////////////////////////////
           } else {
+            this.$notification.open({
+              message: 'Notification Title',
+              description:
+          'The username and / or password is incorrect'
+            })
             console.log('The username and / or password is incorrect')
           }
         } else {
+          this.$notification.open({
+            message: 'Notification Title',
+            description:
+          'A username and password must be present'
+          })
           console.log('A username and password must be present')
         }
       }
