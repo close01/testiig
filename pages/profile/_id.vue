@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="margin-top:100px;" class="center">
     <!-- <MyProfile @authstatus="setAuthenticated"/> -->
-    <div class="clearfix">
+    <div class="clearfix, center" style="margin-left: 696px">
       <a-upload
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         list-type="picture-card"
@@ -20,9 +20,9 @@
         <img alt="example" style="width: 100%" :src="previewImage">
       </a-modal>
     </div>
-    <div style="">
+    <div style="margin-left: 594px;">
       <a-card title="" :bordered="false" style="width: 300px">
-        <p>frist name {{ file.fname }}</p>
+        <p>frist name   {{ file.fname }}</p>
         <p>last name {{ file.lname }}</p>
         <p>username {{ file.user }}</p>
         <p>password  <a @click="showModalpass">Change password</a></p>
@@ -65,7 +65,7 @@
       </a-card>
     </div>
     <div>
-      <a-button type="dashed" style="width: 270px; height:40px" @click="showModal">
+      <a-button type="dashed" style="width: 270px; height:40px " class="mg20" @click="showModal">
         <a-icon type="edit" />
         edit profile
       </a-button>
@@ -304,5 +304,8 @@ export default {
 }
 .center{
   text-align: center;
+}
+.mg20{
+  margin-bottom: 20px;
 }
 </style>

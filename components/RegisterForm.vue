@@ -1,10 +1,6 @@
 <template>
-  <div>
+  <div class="center">
     <div>
-      <h2 class="mb-2 text-xl text-green-500 font-bold">
-        Register
-      </h2>
-
       <div class="mb-4">
         <!-- <label class="block mb-2 text-gray-500" for="email">Email</label> -->
         <a-form-model
@@ -44,7 +40,6 @@
                 }
               "
             />
-            <h2>{{ users }}</h2>
           </a-form-model-item>
           <a-form-model-item label="" prop="fname">
             <a-input
@@ -68,12 +63,16 @@
               style="width: 270px; margin:15px auto 0px;"
             />
           </a-form-model-item>
-          <a-button type="primary" style="width: 270px; height:40px" @click="onchange">
-            Register
-          </a-button>
-          <a-button type="dashed" style="width: 270px; height:40px" @click="cancel">
-            cancel
-          </a-button>
+          <div>
+            <a-button type="primary" style="width: 270px; height:40px; margin-bottom: 20px; " @click="onchange">
+              Register
+            </a-button>
+          </div>
+          <div>
+            <a-button type="dashed" style="width: 270px; height:40px" @click="cancel">
+              cancel
+            </a-button>
+          </div>
         </a-form-model>
       </div>
     </div>
