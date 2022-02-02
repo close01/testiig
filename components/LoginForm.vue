@@ -96,9 +96,12 @@ export default {
       // this.encryptP = encrypt.data
       // console.log('eeeeeeeedfdfdfdfdfdfd', this.profile1[this.profile.indexOf(inputU)])
       const baseString = this.profile1[this.profile.indexOf(this.input.username)]
+      console.log('baseString', baseString)
       const CryptoJS = require('crypto-js')
       const decipher = CryptoJS.AES.decrypt(baseString, 'CIPHERKEY')
+      console.log('decipher', decipher)
       const plaintext = decipher.toString(CryptoJS.enc.Utf8)
+      console.log('planintext', plaintext)
       // //////////////////////////////////////////
       if (this.input.username !== '' && this.input.password !== '') {
         this.$emit('authenticated', true)
@@ -108,6 +111,7 @@ export default {
             // if (this.input.username === this.profile[this.profile.indexOf(this.input.username)] && this.input.password === this.profile1[this.profile.indexOf(this.input.username)]) {
             // true ค่าไม่ส่ง
             // this.$emit('authenticated', false)
+            console.log('pass', plaintext)
             this.$router.replace(`/profile/${this.profile2[this.profile.indexOf(this.input.username)]}`)
             // ////////////////////////////////
           } else {
@@ -116,6 +120,7 @@ export default {
               description:
           'The username and / or password is incorrect'
             })
+            console.log('pass', plaintext)
             console.log('The username and / or password is incorrect')
           }
         } else {

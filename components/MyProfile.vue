@@ -239,6 +239,7 @@ export default {
       this.visible = false
       this.visiblepass = false
       window.location.reload(true)
+      this.$refs.newpass.reset()
     },
     onchangepw () {
       const pwc = this.formchange.pwc
