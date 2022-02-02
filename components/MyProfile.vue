@@ -279,4 +279,7 @@ export default {
   margin-top: 8px;
   color: #666;
 }
+.center{
+  text-align: center;
+}
 </style>

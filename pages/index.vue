@@ -144,9 +144,9 @@ export default {
 <style>
 .center{
   text-align: center;
-  margin: 100px;
+  margin-top: 100px;
 }
 .mg20{
-  margin: 20px;
+  margin-bottom: 20px;
 }
 </style>
