@@ -1,6 +1,6 @@
 <template>
   <!-- <LoginForm @authenticated="setAuthenticated"/> -->
-  <div>
+  <div class="center">
     <div>
       <form>
         <h2 class="mb-2 text-xl text-green-500 font-bold">
@@ -33,12 +33,12 @@
           <!-- {{this.$parent.mockAccount.username}} -->
         </div>
         <div>
-          <a-button type="primary" style="width: 270px; height:40px" @click="login">
+          <a-button type="primary" style="width: 270px; height:40px" class="mg20" @click="login">
             Login
           </a-button>
         </div>
         <div>
-          <a-button type="primary" style="width: 270px; height:40px" href="/register">
+          <a-button type="primary" style="width: 270px; height:40px " href="/register">
             Register
           </a-button>
         </div>
@@ -141,3 +141,12 @@ export default {
   }
 }
 </script>
+<style>
+.center{
+  text-align: center;
+  margin: 100px;
+}
+.mg20{
+  margin: 20px;
+}
+</style>
