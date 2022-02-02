@@ -185,6 +185,7 @@ export default {
     if (!this.authenticated) {
       this.$router.replace('/')
     }
+    this.getData()
   },
   methods: {
     setAuthenticated (status) {
@@ -196,10 +197,112 @@ export default {
     logout () {
       this.authenticated = false
       this.$router.replace('/')
+    },
+    async getData () {
+      const res = await axios.get(`http://localhost:3034/get/profile/${this.id}`)
+      this.file = res.data
+      console.log(this.file)
+      this.$emit('authstatus', this.file.auth)
+    },
+    handleCancel () {
+      this.previewVisible = false
+    },
+    async handlePreview (file) {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj)
+      }
+      this.previewImage = file.url || file.preview
+      this.previewVisible = true
+    },
+    handleChange ({ fileList }) {
+      this.fileList = fileList
+    },
+    // showModal () {
+    //   this.openchange = true
+    // },
+    showModal () {
+      this.visible = true
+    },
+    showModalpass () {
+      this.visiblepass = true
+    },
+    handleOkPass (e) {
+      // console.log(e)
+      // this.visible = false
+      // this.visiblepass = false
+      const pwc = this.formchange.pwc
+      if (this.o.badSequenceLength) {
+        const lower = 'abcdefghijklmnopqrstuvwxyz'
+        const upper = lower.toUpperCase()
+        const numbers = '0123456789'
+        // 'qwertyuiopasdfghjklzxcvbnm'
+        const qwerty = 'qwertyuiopasdfghjklzxcvbnm'
+        const start = this.o.badSequenceLength - 1
+        let seq = '_' + pwc.slice(0, start)
+        for (let i = start; i < pwc.length; i++) {
+          seq = seq.slice(1) + pwc.charAt(i)
+          if (
+            lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || (this.o.noQwertySequences && qwerty.includes(seq))
+          ) {
+            console.log('1')
+            return
+          }
+        }
+      }
+      this.visible = false
+      this.visiblepass = false
+      console.log('2')
+      this.openchang = false
+      this.$axios.put(`http://localhost:3034/edit/pw/${this.id}`, this.formchange)
+    },
+    handleOkedit (e) {
+      // console.log(e)
+      this.$axios.put(`http://localhost:3034/edit/user/${this.id}`, this.editform)
+      this.visible = false
+      this.visiblepass = false
+      window.location.reload(true)
+      this.$refs.newpass.reset()
+    },
+    onchangepw () {
+      const pwc = this.formchange.pwc
+      if (this.o.badSequenceLength) {
+        const lower = 'abcdefghijklmnopqrstuvwxyz'
+        const upper = lower.toUpperCase()
+        const numbers = '0123456789'
+        // 'qwertyuiopasdfghjklzxcvbnm'
+        const qwerty = 'qwertyuiopasdfghjklzxcvbnm'
+        const start = this.o.badSequenceLength - 1
+        let seq = '_' + pwc.slice(0, start)
+        for (let i = start; i < pwc.length; i++) {
+          seq = seq.slice(1) + pwc.charAt(i)
+          if (
+            lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || (this.o.noQwertySequences && qwerty.includes(seq))
+          ) {
+            console.log('1')
+            return this.o.message1
+          }
+        }
+      }
+      console.log('2')
+      this.openchang = false
+      return this.o.message2
     }
   }
 }
 </script>
 <style>
 .center{}
+/* you can make up upload button and sample style by using stylesheets */
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
+.center{
+  text-align: center;
+}
 </style>
