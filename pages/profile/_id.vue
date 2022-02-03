@@ -190,9 +190,9 @@ export default {
   methods: {
     setAuthenticated (status) {
       this.authenticated = status
-      console.log('authenticated1111', this.authenticated)
-      console.log('tatus', status)
-      console.log('authenticated', this.authenticated)
+      // console.log('authenticated1111', this.authenticated)
+      // console.log('tatus', status)
+      // console.log('authenticated', this.authenticated)
     },
     logout () {
       this.authenticated = false
@@ -201,7 +201,7 @@ export default {
     async getData () {
       const res = await axios.get(`http://localhost:3034/get/profile/${this.id}`)
       this.file = res.data
-      console.log(this.file)
+      // console.log(this.file)
       this.$emit('authstatus', this.file.auth)
     },
     handleCancel () {
@@ -231,6 +231,11 @@ export default {
       // this.visible = false
       // this.visiblepass = false
       const pwc = this.formchange.pwc
+      const opw = this.file.pw
+      const CryptoJS = require('crypto-js')
+      const decipher = CryptoJS.AES.decrypt(opw, 'CIPHERKEY')
+      // console.log('decipher', decipher)
+      const plaintext = decipher.toString(CryptoJS.enc.Utf8)
       if (this.o.badSequenceLength) {
         const lower = 'abcdefghijklmnopqrstuvwxyz'
         const upper = lower.toUpperCase()
@@ -242,15 +247,20 @@ export default {
         for (let i = start; i < pwc.length; i++) {
           seq = seq.slice(1) + pwc.charAt(i)
           if (
-            lower.includes(seq) || upper.includes(seq) || numbers.includes(seq)) {
-            console.log('1')
+            lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || pwc === plaintext) {
+            // console.log('1')
+            this.$notification.open({
+              message: '! notify',
+              description:
+              'Incorrect password.'
+            })
             return
           }
         }
       }
       this.visible = false
       this.visiblepass = false
-      console.log('2')
+      // console.log('2')
       this.openchang = false
       this.$axios.put(`http://localhost:3034/edit/pw/${this.id}`, this.formchange)
     },
@@ -277,20 +287,19 @@ export default {
           if (
             lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || (this.o.noQwertySequences && qwerty.includes(seq))
           ) {
-            console.log('1')
-            return this.o.message1
+            // console.log('1')
+            return
           }
         }
       }
-      console.log('2')
+      // console.log('2')
       this.openchang = false
-      return this.o.message2
     }
   }
 }
 </script>
 <style>
-.center{}
+/* .center{} */
 /* you can make up upload button and sample style by using stylesheets */
 .ant-upload-select-picture-card i {
   font-size: 32px;
