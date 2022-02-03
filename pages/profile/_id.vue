@@ -1,7 +1,7 @@
 <template>
-  <div style="margin-top:100px;" class="center">
+  <div style="margin-top:20px;" class="center">
     <!-- <MyProfile @authstatus="setAuthenticated"/> -->
-    <div class="clearfix, center" style="margin-left: 696px">
+    <div class="clearfix, center" style="">
       <a-upload
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         list-type="picture-card"
@@ -236,14 +236,13 @@ export default {
         const upper = lower.toUpperCase()
         const numbers = '0123456789'
         // 'qwertyuiopasdfghjklzxcvbnm'
-        const qwerty = 'qwertyuiopasdfghjklzxcvbnm'
+        // const qwerty = 'qwertyuiopasdfghjklzxcvbnm'
         const start = this.o.badSequenceLength - 1
         let seq = '_' + pwc.slice(0, start)
         for (let i = start; i < pwc.length; i++) {
           seq = seq.slice(1) + pwc.charAt(i)
           if (
-            lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || (this.o.noQwertySequences && qwerty.includes(seq))
-          ) {
+            lower.includes(seq) || upper.includes(seq) || numbers.includes(seq)) {
             console.log('1')
             return
           }
@@ -307,5 +306,9 @@ export default {
 }
 .mg20{
   margin-bottom: 20px;
+}
+.ant-upload-picture-card-wrapper {
+  width: 1%;
+  margin-left: -87px;
 }
 </style>
