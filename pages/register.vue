@@ -5,6 +5,7 @@
     </h2>
     <div class="clearfix">
       <a-upload
+        ref="input1"
         action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
         list-type="picture-card"
         :file-list="fileList"
@@ -129,7 +130,7 @@ export default {
         lname: ''
       },
       o: {
-        badSequenceLength: 3,
+        badSequenceLength: 4,
         noQwertySequences: false
       },
       users: [],
@@ -252,6 +253,7 @@ export default {
     },
     handleChange ({ fileList }) {
       this.fileList = fileList
+      console.log('file', fileList)
     }
   }
 }

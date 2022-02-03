@@ -162,7 +162,7 @@ export default {
         lname: ''
       },
       o: {
-        badSequenceLength: 3,
+        badSequenceLength: 4,
         noQwertySequences: false
       },
       ruleschange: {
