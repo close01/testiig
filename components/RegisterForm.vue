@@ -120,7 +120,7 @@ export default {
     async getData () {
       const res = await axios.get('http://localhost:3034/get/users/')
       this.users = res.data
-      console.log(this.users)
+      // console.log(this.users)
     },
     onchange () {
       const pw = this.form.pw
@@ -173,14 +173,14 @@ export default {
           if (
             lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || (this.o.noQwertySequences && qwerty.includes(seq))
           ) {
-            console.log('1')
+            // console.log('1')
             // console.log(this.users.includes(this.form.user), typeof this.users)
             return this.o.message1
           }
         }
       }
       if (this.users.includes(this.form.user)) {
-        console.log('3')
+        // console.log('3')
         this.$notification.open({
           message: 'Notification Title',
           description:
@@ -189,7 +189,7 @@ export default {
         // return false
         return this.o.message1
       }
-      console.log('2')
+      // console.log('2')
       // return this.o.message2,
       this.$axios.post('http://localhost:3034/post/user/', this.form)
         .then(() => {

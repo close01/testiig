@@ -179,7 +179,7 @@ export default {
     async getData () {
       const res = await axios.get(`http://localhost:3034/get/profile/${this.id}`)
       this.file = res.data
-      console.log(this.file)
+      // console.log(this.file)
       this.$emit('authstatus', this.file.auth)
     },
     handleCancel () {
@@ -222,14 +222,14 @@ export default {
           if (
             lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || (this.o.noQwertySequences && qwerty.includes(seq))
           ) {
-            console.log('1')
+            // console.log('1')
             return
           }
         }
       }
       this.visible = false
       this.visiblepass = false
-      console.log('2')
+      // console.log('2')
       this.openchang = false
       this.$axios.put(`http://localhost:3034/edit/pw/${this.id}`, this.formchange)
     },
@@ -256,12 +256,12 @@ export default {
           if (
             lower.includes(seq) || upper.includes(seq) || numbers.includes(seq) || (this.o.noQwertySequences && qwerty.includes(seq))
           ) {
-            console.log('1')
+            // console.log('1')
             return this.o.message1
           }
         }
       }
-      console.log('2')
+      // console.log('2')
       this.openchang = false
       return this.o.message2
     }
