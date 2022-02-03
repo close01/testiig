@@ -144,7 +144,7 @@ export default {
 <style>
 .center{
   text-align: center;
-  padding-top: 100px;
+  padding-top: 20px;
 }
 .mg20{
   margin-bottom: 20px;
